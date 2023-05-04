@@ -23,11 +23,11 @@ class Product
     private int $price;
 
 
-    public function __construct(UuidInterface $uuid, string $name, int $price)
+    public function __construct(UuidInterface $uuid, string $name, int $priceInCents)
     {
         $this->uuid = $uuid->toString();
         $this->name = $name;
-        $this->price = $price;
+        $this->price = $priceInCents;
     }
 
     public function getUuid(): UuidInterface
@@ -40,7 +40,7 @@ class Product
         return $this->name;
     }
 
-    public function getPrice(): int
+    public function getPriceInCents(): int
     {
         return $this->price;
     }

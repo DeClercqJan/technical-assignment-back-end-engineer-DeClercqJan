@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Service\ProductSerializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,8 @@ class GetProductsController
     {
         $products = $this->em->getRepository(Product::class)->findAll();
 
-        return new JsonResponse($products);
+        return new JsonResponse(
+            ProductSerializer::serializeList($products)
+        );
     }
 }
