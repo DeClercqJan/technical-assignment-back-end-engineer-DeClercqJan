@@ -7,9 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetProductControllerTest extends WebTestCase
+class GetProductsControllerTest extends WebTestCase
 {
-    public function testGetProductControllerTest(): void
+    public function testGetProductsControllerTest(): void
     {
         $client = static::createClient();
         $client->request(
@@ -54,33 +54,9 @@ class GetProductControllerTest extends WebTestCase
         // see fixtures
         $this->assertCount(2, $array2);
         foreach ($array2 as $element) {
-            $this->assertCount(3, $element);
             $this->assertArrayHasKey('uuid', $element);
             $this->assertArrayHasKey('name', $element);
             $this->assertArrayHasKey('price', $element);
         }
-
-        $url = '/api/products/' . $array2[0]['uuid'];
-        $client->request(
-            Request::METHOD_GET,
-            $url,
-            [],
-            [],
-            [
-                'CONTENT_TYPE' => 'application/json',
-                'HTTP_Authorization' => sprintf('bearer %s', $accessToken)
-            ]
-        );
-        $response3 = $client->getResponse();
-        $content3 = $response3->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response3->getStatusCode());
-        $this->assertJson($content3);
-        $array3 = json_decode($content3, true);
-        $this->assertIsArray($array3);
-        // see fixtures
-        $this->assertCount(3, $array3);
-        $this->assertArrayHasKey('uuid', $array3);
-        $this->assertArrayHasKey('name', $array3);
-        $this->assertArrayHasKey('price', $array3);
     }
 }

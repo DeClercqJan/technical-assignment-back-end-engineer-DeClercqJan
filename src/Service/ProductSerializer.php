@@ -10,6 +10,7 @@ class ProductSerializer
     public static function serialize(Product $product): array
     {
         return [
+            'uuid' => $product->getUuid()->toString(),
             'name' => $product->getName(),
             'price' => $product->getPriceInCents() / 100
         ];
