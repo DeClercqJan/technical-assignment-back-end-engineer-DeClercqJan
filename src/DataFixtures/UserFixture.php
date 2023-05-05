@@ -10,11 +10,14 @@ use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class UserFixture extends Fixture
 {
+    public const VALID_EMAIL = 'hat@monopoly.com';
+    public const VALID_PASSWORD = 'hotels!';
+
     public function load(ObjectManager $manager)
     {
         $user1 = new User(
             UuidV4::uuid4(),
-            'hat@monopoly.com',
+            UserFixture::VALID_EMAIL,
         );
 
         // hotels!

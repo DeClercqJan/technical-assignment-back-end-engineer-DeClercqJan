@@ -3,39 +3,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\DataFixtures\UserFixture;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetProductsControllerTest extends WebTestCase
+class GetProductsControllerTest extends WebTestCaseBase
 {
-    public function testGetProductsControllerTest(): void
+    public function testGetProductsControllerTestSuccess(): void
     {
-        $client = static::createClient();
-        $client->request(
-            Request::METHOD_GET,
-            '/api/login',
-            [],
-            [],
-            [
-                'CONTENT_TYPE' => 'application/json',
-            ],
-            json_encode([
-                'email' => 'hat@monopoly.com',
-                'password' => 'hotels!'
-            ])
-        );
-        $response = $client->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $content = $response->getContent();
-        $array = json_decode($content, true);
-        $this->assertArrayHasKey('token', $array);
-        $this->assertArrayHasKey('refresh_token', $array);
-        $this->assertArrayHasKey('refresh_token_expiration', $array);
-
-        $accessToken = $array['token'];
-
-        $client->request(
+        $accessToken = $this->getAccessToken(UserFixture::VALID_EMAIL, UserFixture::VALID_PASSWORD);
+        $this->client->request(
             Request::METHOD_GET,
             '/api/products',
             [],
@@ -45,18 +22,35 @@ class GetProductsControllerTest extends WebTestCase
                 'HTTP_Authorization' => sprintf('bearer %s', $accessToken)
             ]
         );
-        $response2 = $client->getResponse();
-        $content2 = $response2->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response2->getStatusCode());
-        $this->assertJson($content2);
-        $array2 = json_decode($content2, true);
-        $this->assertIsArray($array2);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertJson($content);
+        $products = json_decode($content, true);
+        $this->assertIsArray($products);
         // see fixtures
-        $this->assertCount(2, $array2);
-        foreach ($array2 as $element) {
-            $this->assertArrayHasKey('uuid', $element);
-            $this->assertArrayHasKey('name', $element);
-            $this->assertArrayHasKey('price', $element);
+        $this->assertCount(5, $products);
+        foreach ($products as $product) {
+            $this->assertArrayHasKey('uuid', $product);
+            $this->assertArrayHasKey('name', $product);
+            $this->assertArrayHasKey('price', $product);
         }
+    }
+
+    public function testGetProductsControllerInvalidAccessToken(): void
+    {
+        $accessToken = 'ongeldige accesstoken';
+        $this->client->request(
+            Request::METHOD_GET,
+            '/api/products',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_Authorization' => sprintf('bearer %s', $accessToken)
+            ]
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 }
