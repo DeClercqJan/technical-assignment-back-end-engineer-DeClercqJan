@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GetProductControllerTest extends WebTestCaseBase
 {
-    public function testGetProductControllerTeSuccess(): void
+    public function testGetProductControllerSuccess(): void
     {
         $accessToken = $this->getAccessToken(UserFixture::VALID_EMAIL, UserFixture::VALID_PASSWORD);
         $this->client->request(
@@ -28,6 +28,7 @@ class GetProductControllerTest extends WebTestCaseBase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertJson($content);
         $products = json_decode($content, true);
+
         $this->assertIsArray($products);
         // see fixtures
         $this->assertCount(5, $products);

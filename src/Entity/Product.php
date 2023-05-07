@@ -5,7 +5,6 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM;
-use Ramsey\Uuid\Rfc4122\UuidV4;
 use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Mapping\Entity(repositoryClass: ProductRepository::class)]
@@ -13,26 +12,25 @@ use Ramsey\Uuid\UuidInterface;
 class Product
 {
     #[ORM\Mapping\Id]
-    #[ORM\Mapping\Column(type: "string", unique: true, nullable: false)]
-    private string $uuid;
+    #[ORM\Mapping\Column(name: "uuid", type: "uuid", unique: true, nullable: false)]
+    private UuidInterface $uuid;
 
-    #[ORM\Mapping\Column(type: "string", unique: true, nullable: false)]
+    #[ORM\Mapping\Column(name: "name", type: "string", unique: true, nullable: false)]
     private string $name;
 
-    #[ORM\Mapping\Column(type: "integer", nullable: false)]
+    #[ORM\Mapping\Column(name: "price", type: "integer", nullable: false)]
     private int $price;
-
 
     public function __construct(UuidInterface $uuid, string $name, int $priceInCents)
     {
-        $this->uuid = $uuid->toString();
+        $this->uuid = $uuid;
         $this->name = $name;
         $this->price = $priceInCents;
     }
 
     public function getUuid(): UuidInterface
     {
-        return UuidV4::fromString($this->uuid);
+        return $this->uuid;
     }
 
     public function getName(): string
