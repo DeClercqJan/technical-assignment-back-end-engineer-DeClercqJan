@@ -12,7 +12,7 @@ class ProductSerializer
         return [
             'uuid' => $product->getUuid()->toString(),
             'name' => $product->getName(),
-            'price' => $product->getPriceInCents() / 100
+            'price' => $product->getPriceInCents() / 100,
         ];
     }
 

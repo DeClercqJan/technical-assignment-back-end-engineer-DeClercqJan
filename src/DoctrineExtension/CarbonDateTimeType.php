@@ -18,7 +18,14 @@ class CarbonDateTimeType extends DateTimeType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return Carbon::instance(parent::convertToPHPValue($value, $platform));
+        $result = parent::convertToPHPValue($value, $platform);
+        if ($result instanceof \DateTime) {
+            $carbon = Carbon::instance($result);
+
+            return $carbon;
+        }
+
+        return $result;
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform)

@@ -7,6 +7,7 @@ use App\Repository\BasketRepository;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -19,10 +20,13 @@ class Basket
     private UuidInterface $uuid;
 
     #[ORM\Mapping\OneToMany(targetEntity: BasketItem::class, mappedBy: "basket")]
-    private ArrayCollection $basketItems;
+    private Collection $basketItems;
+
+    #[ORM\Mapping\Column(name: "created_at", type: "carbon_date_time", nullable: false)]
+    private ?CarbonInterface $createdAt;
 
     #[ORM\Mapping\Column(name: "checked_out_at", type: "carbon_date_time", nullable: true)]
-    private CarbonInterface $checkedOutAt;
+    private ?CarbonInterface $checkedOutAt;
 
     #[ORM\Mapping\Column(name: "deleted_at", type: "carbon_date_time", nullable: true)]
     private ?CarbonInterface $deletedAt;
@@ -30,18 +34,11 @@ class Basket
     public function __construct(UuidInterface $uuid)
     {
         $this->uuid = $uuid;
+        $this->createdAt = Carbon::now();
         $this->basketItems = new ArrayCollection();
     }
 
-    public function addBasketItem(BasketItem $basketItem): void
-    {
-        if (!$this->basketItems->contains($basketItem)) {
-            $basketItem->setBasket($this);
-            $this->basketItems[] = $basketItem;
-        }
-    }
-
-    public function removeBasketItem(BasketItem $basketItem): void
+    public function deleteBasketItem(BasketItem $basketItem): void
     {
         $basketItem->delete();
     }
@@ -51,7 +48,7 @@ class Basket
         $this->checkedOutAt = Carbon::now();
     }
 
-    public function delete(BasketItem $basketItem): void
+    public function delete(): void
     {
         $this->deletedAt = Carbon::now();
     }
@@ -61,12 +58,17 @@ class Basket
         return $this->uuid;
     }
 
-    public function getBasketItems(): ArrayCollection
+    public function getBasketItems(): Collection
     {
         return $this->basketItems;
     }
 
-    public function getCheckedOutAt(): CarbonInterface
+    public function getCreatedAt(): ?CarbonInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function getCheckedOutAt(): ?CarbonInterface
     {
         return $this->checkedOutAt;
     }

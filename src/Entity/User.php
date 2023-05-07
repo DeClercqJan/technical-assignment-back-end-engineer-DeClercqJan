@@ -21,7 +21,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Mapping\Column(type: "string", unique: true, nullable: false)]
     private string $email;
 
-    #[ORM\Mapping\Column(type: "string", unique: true, nullable: false)]
+    #[ORM\Mapping\Column(type: "string", nullable: false)]
     private string $password;
 
     public function __construct(UuidInterface $uuid, string $email)
