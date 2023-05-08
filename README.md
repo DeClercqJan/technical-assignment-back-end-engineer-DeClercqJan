@@ -6,7 +6,7 @@
 
 composer available in CLI. At least version 2.1
 
-php version 8.2 locally installed. TODO: may want to put everything in Docker for ease of use, maybe even make command that does everything
+php version 8.2 locally installed.
 
 commands below use symfony in CLI e.g. symfony console doctrine:migrations:migrate
 atlernatively, you can use php bin/console doctrine:schema:validate but then you need to have php available and use a different webserver
