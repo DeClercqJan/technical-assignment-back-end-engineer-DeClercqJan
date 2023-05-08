@@ -13,4 +13,17 @@ class BasketItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BasketItem::class);
     }
+
+    public function findRemovedBeforeCheckout(): array
+    {
+        $qb = $this->createQueryBuilder('basketItem');
+
+        $qb->join('basketItem.basket', 'basket')
+            ->andWhere($qb->expr()->isNotNull('basketItem.deletedAt'))
+            ->andWhere($qb->expr()->isNotNull('basket.checkedOutAt'))
+            ->andWhere($qb->expr()->lt('basketItem.deletedAt', 'basket.checkedOutAt'))
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

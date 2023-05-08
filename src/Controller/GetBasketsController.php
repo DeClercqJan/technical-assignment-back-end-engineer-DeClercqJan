@@ -95,7 +95,7 @@ class GetBasketsController
                 $createdUntil = new Carbon($values[$untilField]);
                 if ($createdUntil->lte($createdFrom)) {
                     throw new \Particle\Validator\Exception\InvalidValueException(
-                        sprintf('%s should be greater than %s', $createdFrom, $createdUntil),
+                        sprintf('%s should be greater than %s', $createdUntil, $createdFrom),
                         $untilField
                     );
                 }
