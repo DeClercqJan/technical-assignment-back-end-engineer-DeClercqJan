@@ -2,6 +2,13 @@
 
 ## Installation
 
+### note to reviewer
+
+Here you find the actual job description for which this assignment is a test:
+https://www.publiq.be/nl/vacaturebank/ervaren-backend-developer-publiq See "Technische skills" (I didn't go for all the extra's)
+
+Also, I've limited myself to the actual assignment. E.g. there's no Customer entity
+
 ### prerequisites
 
 composer available in CLI. At least version 2.1
