@@ -7,11 +7,19 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Rfc4122\UuidV4;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class UserFixture extends Fixture
 {
     public const VALID_EMAIL = 'hat@monopoly.com';
     public const VALID_PASSWORD = 'hotels!';
+
+    private PasswordHasherFactoryInterface $passwordHasherFactory;
+
+    public function __construct(PasswordHasherFactoryInterface $passwordHasherFactory)
+    {
+        $this->passwordHasherFactory = $passwordHasherFactory;
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -20,9 +28,7 @@ class UserFixture extends Fixture
             UserFixture::VALID_EMAIL,
         );
 
-        // hotels!
-        $password = '$2y$13$pbcJYiEr08yxxQAg7fHasuaY6G6GxigK0k3RDuCGWE9wTMpY7KJke';
-        $user1->setPassword($password);
+        $user1->setPassword($this->passwordHasherFactory->getPasswordHasher($user1)->hash('hotels!'));
         $manager->persist($user1);
 
         $manager->flush();

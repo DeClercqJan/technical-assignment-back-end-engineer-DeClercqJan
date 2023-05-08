@@ -16,24 +16,16 @@ composer available in CLI. At least version 2.1
 php version 8.2 locally installed.
 
 commands below use symfony in CLI e.g. symfony console doctrine:migrations:migrate
-atlernatively, you can use php bin/console doctrine:schema:validate but then you need to have php available and use a different webserver
+alternatively, you can use php bin/console doctrine:schema:validate but then you need to have php available and use a different webserver
 
 
 ### getting it to run
 
-composer install
-
-symony console lexik:jwt:generate-keypair
+in CLI: make install
 
 create a .env.dev.local file and fill out variables defined in .env
 
-symfony console doctrine:database:create
-
-symfony console doctrine:migrations:migrate
-
-symfony console doctrine:fixtures:load
-
-symfony server:start
+make run
 
 
 ### using it
@@ -88,15 +80,7 @@ or by using query the query parameters on the more explorative GET http://127.0.
 
 fill out (differentt DB in .env.test.local
 
-symfony console --env=test doctrine:database:drop --force
-
-symfony console --env=test doctrine:database:create
-
-symfony console --env=test doctrine:migrations:migrate
-
-symfony console --env=test doctrine:fixtures:load
-
-php bin/phpunit
+make test
 
 
 ## Assignment
