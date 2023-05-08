@@ -24,11 +24,9 @@ symfony console doctrine:database:create
 
 symfony console doctrine:migrations:migrate
 
-symfony server:start
-
-symfony console --env=test doctrine:schema:create
-
 symfony console doctrine:fixtures:load
+
+symfony server:start
 
 
 ### using it
@@ -75,8 +73,8 @@ to "know which items were added to a basket, but removed before checkout", there
 easily get only the items that fulfil the criteria via GET http://127.0.0.1:8000/api/get-basket-items-removed-from-basket-before-checkout
 ![img_13.png](img_13.png)
 
-or explore by using query the query parameters on GET http://127.0.0.1:8000/api/baskets
-![img_12.png](img_12.png)
+or by using query the query parameters on the more explorative GET http://127.0.0.1:8000/api/baskets
+![img_14.png](img_14.png)
 
 
 ### running test

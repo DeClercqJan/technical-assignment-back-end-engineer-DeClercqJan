@@ -80,7 +80,7 @@ class BasketRepository extends ServiceEntityRepository
 
         if (
             array_key_exists('basket_items_deleted_from', $filters) && 'false' === $filters['basket_items_deleted_from']
-            || array_key_exists('basket_items_deleted_until', $filters) && 'false' === $filters['basket_deleted_until']
+            || array_key_exists('basket_items_deleted_until', $filters) && 'false' === $filters['basket_items_deleted_until']
         ) {
             $qb
                 ->join('basket.basketItems', 'basketItems')
