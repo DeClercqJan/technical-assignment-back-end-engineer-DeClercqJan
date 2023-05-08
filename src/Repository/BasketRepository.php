@@ -104,6 +104,20 @@ class BasketRepository extends ServiceEntityRepository
             }
         }
 
+        if (array_key_exists('limit', $filters) && 'false' !== $filters['limit']) {
+            $qb->setMaxResults($filters['limit']);
+        }
+
+        if (array_key_exists('offset', $filters) && 'false' !== $filters['offset']) {
+            $qb->setFirstResult($filters['offset']);
+        }
+
+        if (array_key_exists('sort_by', $filters) && array_key_exists('sort_direction', $filters)) {
+            $qb->orderBy(sprintf('basket.%s', $filters['sort_by']), $filters['sort_direction']);
+        } else {
+            $qb->orderBy('basket.createdAt', 'DESC');
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

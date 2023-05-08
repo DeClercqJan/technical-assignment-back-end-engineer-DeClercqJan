@@ -11,12 +11,12 @@ class CarbonDateTimeType extends DateTimeType
 {
     const CARBON_DATE_TIME = 'carbon_date_time';
 
-    public function getName()
+    public function getName(): string
     {
         return static::CARBON_DATE_TIME;
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?Carbon
     {
         $result = parent::convertToPHPValue($value, $platform);
         if ($result instanceof \DateTime) {
@@ -28,7 +28,7 @@ class CarbonDateTimeType extends DateTimeType
         return $result;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

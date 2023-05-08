@@ -11,7 +11,6 @@ use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Mapping\Entity(repositoryClass: BasketItemRepository::class)]
 #[ORM\Mapping\Table(name: "basket_items")]
-// todo: naam veranderen naar BasketLine
 class BasketItem
 {
     #[ORM\Mapping\Id]

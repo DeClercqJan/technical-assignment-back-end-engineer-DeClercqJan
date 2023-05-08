@@ -72,6 +72,14 @@ class GetBasketsController
         $data = $this->allowNullableButCheckIfFromIsBeforeUntil($data, 'basket_deleted_from', 'basket_deleted_until');
         $data = $this->allowNullableButCheckIfFromIsBeforeUntil($data, 'basket_items_deleted_from', 'basket_items_deleted_until');
 
+        $this->validator
+            ->optional('sort_by')
+            ->inArray(['createdAt', 'deletedAt', 'checkedOutAt']);
+
+        $this->validator
+            ->optional('sort_direction')
+            ->inArray(['ASC', 'DESC']);
+
         return $this->validator->validate($data);
 
     }

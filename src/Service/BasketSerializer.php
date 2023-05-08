@@ -11,6 +11,7 @@ class BasketSerializer
     {
         $result = [
             'uuid' => $basket->getUuid()->toString(),
+            'created_at' => $basket->getCreatedAt()->toString(),
             'checked_out_at' => $basket->getCheckedOutAt()?->toString(),
             'deleted_at' => $basket->getDeletedAt()?->toString(),
             'basket_items' => []
